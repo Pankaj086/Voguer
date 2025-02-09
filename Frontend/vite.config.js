@@ -9,3 +9,6 @@ export default defineConfig({
     tailwindcss(),
   ],
 })
+
+
+// { name: "Luxury Rose Gold", colors: ["#FAE1DD", "#3B2C35", "#E6A4B4", "#D291BC", "#FFC2A1", "#AD6A6C" , "#FADCD9"] }, 
