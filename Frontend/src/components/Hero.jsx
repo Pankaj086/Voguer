@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { assets } from "../assets/frontend_assets/assets"
 
