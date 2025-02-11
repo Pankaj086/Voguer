@@ -2,15 +2,18 @@ import { Link, NavLink } from "react-router-dom";
 import { Search, User, ShoppingBag, Menu, ChevronLeft  } from 'lucide-react';
 import { assets } from "../assets/frontend_assets/assets";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+
+    const navigate = useNavigate();
 
     const [visible, setVisible] = useState(false);
     
     return (
         <div className="flex justify-between items-center py-5 font-medium">
             {/* logo */}
-            <img src={assets.logo} className="w-36"/>
+            <img onClick={()=>navigate('/')} src={assets.logo} className="w-36 cursor-pointer"/>
 
             {/* nav items */}
             <ul className="hidden sm:flex gap-5 text-sm text-black">
