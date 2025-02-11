@@ -1,5 +1,6 @@
 import Hero from "../components/Hero"
 import NewCollection from "../components/NewCollection"
+import Services from "../components/Services"
 import TrendingNow from "../components/TrendingNow"
 const Home = () => {
     return (
@@ -7,6 +8,7 @@ const Home = () => {
             <Hero/>
             <NewCollection/>
             <TrendingNow/>
+            <Services/>
         </div>
     )
 }

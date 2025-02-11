@@ -1,4 +1,3 @@
-// eslint-disable-next-line react/prop-types
 const Heading = ({ text1, text2 }) => {
     return (
         <div className="inline-flex gap-2 items-center mb-3">
