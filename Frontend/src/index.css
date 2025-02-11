@@ -26,8 +26,14 @@
     font-weight: 500;
     font-style: normal;
 }
-  
 
 a.active div{
     display: block;
+}
+
+@media (max-width:640px){
+    a.active{
+        background-color: black;
+        color: white;
+    }
 }
