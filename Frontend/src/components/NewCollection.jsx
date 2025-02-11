@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
 import Heading from "./Heading";
 import ProductCard from "./ProductCard";
+import SliderTemplate from "../utility/SliderTemplate";
 
 const NewCollection = () => {
     
@@ -19,12 +20,12 @@ const NewCollection = () => {
                     Discover our collection of new arrivals featuring the hottest styles, top trends, and exclusive pieces.
                 </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 gap-y-6 place-items-center">
+            <SliderTemplate>
                 {
                 latestProducts.map((product, index) => (
                     <ProductCard key={index} product={product}/>
                 ))}
-            </div>
+            </SliderTemplate>
         </div>
     );
 };

@@ -1,0 +1,13 @@
+.carousel-container {
+    padding: 20px 0;
+}
+
+.carousel-item-padding-40-px {
+    padding: 0 10px;
+    transition: transform 1000ms ease-in-out;
+}
+
+.react-multi-carousel-item {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
