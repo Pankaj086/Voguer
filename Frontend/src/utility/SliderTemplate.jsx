@@ -40,7 +40,7 @@ const defaultResponsive = {
     },
     }
 
-    const CarouselSlider = ({
+    const SliderTemplate = ({
     children,
     responsive = defaultResponsive,
     autoPlaySpeed = 3000,
@@ -66,4 +66,4 @@ const defaultResponsive = {
     )
 }
 
-export default CarouselSlider
+export default SliderTemplate

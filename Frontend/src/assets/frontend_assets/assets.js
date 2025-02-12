@@ -81,7 +81,10 @@ import trowser1a from "./trowser1a.avif";
 import trowser1b from "./trowser1b.avif";
 import trowser1c from "./trowser1c.avif";
 import trowser1d from "./trowser1d.avif";
-
+import banner1 from "./banner1.png";
+import banner2 from "./banner2.png";
+import banner3 from "./banner3.png";
+import banner4 from "./banner4.png";
 export const assets = {
     logo,
     hero_img,
@@ -111,6 +114,10 @@ export const assets = {
     trowser1b,
     trowser1c,
     trowser1d,
+    banner1,
+    banner2,
+    banner3,
+    banner4,
 }
 
 export const products = [
