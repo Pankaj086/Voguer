@@ -3,6 +3,7 @@ import { Search, User, ShoppingBag, Menu, ChevronLeft  } from 'lucide-react';
 import { assets } from "../assets/frontend_assets/assets";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
 
