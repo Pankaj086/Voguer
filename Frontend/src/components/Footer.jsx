@@ -72,7 +72,7 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
-            <div className="flex flex-col justify-center items-center bg-[#3B2C35] gap-2 mt-4 px-4 text-center bg-">
+            <div className="flex flex-col justify-center items-center bg-[#3B2C35] gap-2 mt-16 px-4 text-center bg-">
                 <h1 className="text-white text-lg sm:text-2xl tracking-widest pt-2 source-sans-3">© 2025 <span className="text-yellow-500">VOGUER</span>. All rights reserved.</h1>
                 <a href="https://www.linkedin.com/in/pankaj086" target="_blank" className="text-white text-lg  sm:text-2xl tracking-widest pb-2 source-sans-3">
                     Developed by @pankaj086
