@@ -36,14 +36,14 @@ const Filter = () => {
     return (
         <div className="flex flex-col gap-2">
             <div className="flex gap-2">
-                <h1 className="text-xl source-sans-3 text-[#3B2C35]">SHOP BY CATEGORY</h1>
+                <h1 className="text-sm sm:text-xl source-sans-3 text-[#3B2C35]">SHOP BY CATEGORY</h1>
                 <div className="block sm:hidden">
                     <ChevronDown
-                        className={`${!dropDown ? 'block' : 'hidden'} w-6 h-6`}
+                        className={`${!dropDown ? 'block' : 'hidden'} w-4 h-4 sm:w-6 sm:h-6`}
                         onClick={() => setDropDown(true)}
                     />
                     <ChevronUp
-                        className={`${dropDown ? 'block' : 'hidden'} w-6 h-6`}
+                        className={`${dropDown ? 'block' : 'hidden'} w-4 h-4 sm:w-6 sm:h-6`}
                         onClick={() => setDropDown(false)}
                     />
                 </div>
