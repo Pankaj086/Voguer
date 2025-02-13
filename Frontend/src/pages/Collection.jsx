@@ -1,6 +1,10 @@
+import Filter from "../components/Filter"
+
 const Collection = () => {
     return (
-        <div>Collection</div>
+        <div>
+            <Filter/>
+        </div>
     )
 }
 
