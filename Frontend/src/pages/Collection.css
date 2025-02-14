@@ -1,0 +1,25 @@
+/* Hide scrollbar by default */
+.cute_scroll::-webkit-scrollbar {
+    width: 10px;
+    background-color: #FAE1DD;
+}
+
+/* Hide the scrollbar track by default */
+.cute_scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #FAE1DD;
+    border-radius: 10px;
+}
+
+/* Make the scrollbar thumb visible only when scrolling */
+.cute_scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #dbbfc2;
+    opacity: 0;  /* Initially hide the thumb */
+    transition: opacity 0.3s ease;  /* Smooth transition for thumb visibility */
+}
+
+/* Show the scrollbar thumb when the user scrolls */
+.cute_scroll:active::-webkit-scrollbar-thumb, 
+.cute_scroll:hover::-webkit-scrollbar-thumb {
+    opacity: 1;  /* Show the thumb when the user scrolls or hovers */
+}
