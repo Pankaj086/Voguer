@@ -57,7 +57,7 @@ const Navbar = () => {
             </div>
 
             {/* sidebar for mobile screen */}
-            <div className={`${visible ? "w-full" : "w-0"} absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all`}>
+            <div className={`${visible ? "w-full" : "w-0"} absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all z-100`}>
                 <div onClick={()=>setVisible(false)} className="text-gray-700 flex gap-1 px-4 py-3">
                     <ChevronLeft className="w-6 h-6 cursor-pointer"/>
                     <p>Back</p>
