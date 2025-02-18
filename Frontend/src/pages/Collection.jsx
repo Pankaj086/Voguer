@@ -37,18 +37,17 @@ const Collection = () => {
     const [typeOpen, setTypeOpen] = useState(true)
     const [sizeOpen, setSizeOpen] = useState(true)
 
-    const closeSidebarHandler = () => {
-        if(sortDropDown){
-            setSortDropDown(false);
-        }
-        if(dropDown){
-            setDropDown(false);
-        }
+    const filterSidebarHandler = () => {
+        setDropDown(!dropDown)
+    }
+
+    const sortDropDownHandler = () => {
+        setSortDropDown(!sortDropDown);
     }
 
     return (
-        <div onClick={closeSidebarHandler}>
-            <div className="text-xl sm:text-3xl text-center relative">
+        <div>
+            <div className="text-3xl text-center relative">
                 <hr className="text-gray-300 mb-4" />
                 <Heading text1={"OUR"} text2={"COLLECTION"} />
             </div>
@@ -69,7 +68,7 @@ const Collection = () => {
                         <div className="flex justify-between items-center gap-10 mb-4 border-b border-gray-400"> 
                         <h1 className="text-xl sm:text-2xl source-sans-3 text-[#3B2C35]">SHOP BY CATEGORY</h1>
                         <X
-                            onClick={() => setDropDown(!dropDown)}
+                            onClick={filterSidebarHandler}
                             className="text-lg sm:text-2xl source-sans-3 text-[#3B2C35] w-5 h-5 sm:w-8 sm:h-8 cursor-pointer"
                         />
                         </div>
@@ -97,14 +96,14 @@ const Collection = () => {
                 </div>
 
                 {/* sort */}
-                <div onClick={() => {setSortDropDown(!sortDropDown)}}
-                className={`${sortDropDown ? "rounded-xl" :"rounded-full"} fixed  sm:absolute z-10 bottom-6 sm:bottom-0 rig sm:top-0 right-4 border border-gray-400 bg-[#FAE1DD]`}>
+                <div onClick={sortDropDownHandler}
+                className={`${sortDropDown ? "rounded-xl" :"rounded-full"} fixed  sm:absolute z-10 bottom-6 sm:bottom-0 sm:top-0 right-4 sm:right-0 border border-gray-400 bg-[#FAE1DD]`}>
                     <div 
                     className="flex items-center px-2 py-1 gap-2   cursor-pointer">
                         <p className="source-sans-3 text-lg text-gray-700">SORT BY</p>
                         <ArrowDownUp className="w-5 h-5 text-gray-700 font-bold" />
                     </div>
-                    <div className={`${sortDropDown ? "h-full" : "hidden" } flex flex-col gap-1 px-3`}>
+                    <div className={`${sortDropDown ? "h-full" : "hidden" } flex flex-col gap-1 px-3 `}>
                         <hr className="text-gray-300"/>
                         <p className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer">Price</p>
                         <hr className="text-gray-300"/>
@@ -114,7 +113,7 @@ const Collection = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-5 z-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-0 sm:my-5 z-0">
                 {
                     products.map((product,index)=>(
                         <ProductCard key={index} product={product}/>
