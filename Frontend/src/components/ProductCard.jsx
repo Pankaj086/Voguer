@@ -3,7 +3,7 @@ import { BiSolidOffer } from "react-icons/bi";
 
 const ProductCard = (props) => {
     const product = props.product;
-    console.log(product);
+    // console.log(product);
     
     return (
         <Link to={`/product/${product._id}`} className=" rounded-sm space-y-2 cursor-pointer">
@@ -16,13 +16,13 @@ const ProductCard = (props) => {
                         <span className="text-white font-light text-xs">{product.off}% Off</span>
                     </div>
                 </div> 
-                <h1 className="source-sans-3 text-gray-700 text-base hidden sm:block">
-                {product.name.length > 26 ? product.name.substring(0, 24) + "..." : product.name}
+                <h1 className="source-sans-3 text-gray-700 text-lg hidden sm:block">
+                {product.name.length > 35 ? product.name.substring(0, 30) + "..." : product.name}
                 </h1>
 
                 {/* For smaller screens (h2) */}
                 <h2 className="source-sans-3 text-gray-700 text-md block sm:hidden">
-                {product.name.length > 16 ? product.name.substring(0, 14) + "..." : product.name}
+                {product.name.length > 20 ? product.name.substring(0, 17) + "..." : product.name}
                 </h2>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-3 ">
                     <div className="flex gap-1 items-center">
