@@ -38,6 +38,7 @@ const Collection = () => {
     const [subCategory, SetSubCategory] = useState([]);
     const [sizeCategory, SetSizeCategory] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);  
+    const [sortOption, setSortOption] = useState(null);
 
     const toggleCategory = (e) => {
         if(category.includes(e.target.value)){
@@ -66,6 +67,19 @@ const Collection = () => {
         }
     }
 
+    const sortProducts = (products, option) => {
+        switch (option) {
+            case 'Price':
+                return products.sort((a, b) => a.discountPrice - b.discountPrice);
+            case 'Rating':
+                return products.sort((a, b) => b.rating - a.rating);
+            case 'Latest Arrival':
+                return products.sort((a, b) => b.date - a.date);
+            default:
+                return products;
+        }
+    };
+
     const filterApplied = () => {
         let productCopy = products.slice();
     
@@ -86,13 +100,14 @@ const Collection = () => {
             );
         }
     
+        productCopy = sortProducts(productCopy, sortOption);
         setFilteredProducts(productCopy);
     }
     
 
     useEffect(()=>{
         filterApplied();
-    },[category,subCategory,sizeCategory])
+    },[category,subCategory,sizeCategory,sortOption])
 
 
     useEffect(()=>{
@@ -173,9 +188,24 @@ const Collection = () => {
                         </div>
                         {sortDropDown && (
                             <div className="bg-[#FAE1DD] border-t border-gray-400">
-                                <p className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors">Price</p>
-                                <p className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors border-t border-gray-400">Rating</p>
-                                <p className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors border-t border-gray-400">Latest Arrival</p>
+                                <p 
+                                    className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors"
+                                    onClick={() => setSortOption('Price')}
+                                >
+                                    Price
+                                </p>
+                                <p 
+                                    className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors border-t border-gray-400"
+                                    onClick={() => setSortOption('Rating')}
+                                >
+                                    Rating
+                                </p>
+                                <p 
+                                    className="text-gray-500 source-sans-3 text-sm sm:text-lg hover:text-gray-800 cursor-pointer px-3 py-2 hover:bg-[#f8d3ce] transition-colors border-t border-gray-400"
+                                    onClick={() => setSortOption('Latest Arrival')}
+                                >
+                                    Latest Arrival
+                                </p>
                             </div>
                         )}
                     </div>
