@@ -1,15 +1,22 @@
 import { Link, NavLink } from "react-router-dom";
 import { Search, User, ShoppingBag, Menu, ChevronLeft  } from 'lucide-react';
 import { assets } from "../assets/frontend_assets/assets";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 import "./Navbar.css";
 
 const Navbar = () => {
 
     const navigate = useNavigate();
-
     const [visible, setVisible] = useState(false);
+    const  { setShowSearch } = useContext(AppContext);
+
+    const searchBarHandler = () => {
+        navigate('/collection');
+        setShowSearch(true);
+    }
+    
     
     return (
         <div className="flex justify-between items-center py-5 font-medium">
@@ -38,7 +45,7 @@ const Navbar = () => {
 
             {/* buttons */}
             <div className="flex gap-6 items-center">
-                <Search className="w-6 h-6 cursor-pointer"/>
+                <Search onClick={searchBarHandler} className="w-6 h-6 cursor-pointer"/>
                 <div className="group relative">
                     <User className="w-6 h-6 cursor-pointer"/>
                     <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">

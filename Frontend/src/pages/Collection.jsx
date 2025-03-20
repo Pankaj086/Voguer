@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { PlusCircle as CirclePlus, ArrowDownUp, X } from "lucide-react"
 import { IoIosOptions } from "react-icons/io"
 import Heading from "../components/Heading"
 import "./Collection.css"
 import { products } from "../assets/frontend_assets/assets"
 import ProductCard from "../components/ProductCard"
+import { AppContext } from "../context/AppContext"
+import { CircleX } from 'lucide-react';
 
 const Dropdown = ({ title, options, open, toggleOpen, cate }) => {
     return (
@@ -80,7 +82,7 @@ const Collection = () => {
         }
     };
 
-    const filterApplied = () => {
+    useEffect(()=>{
         let productCopy = products.slice();
     
         // Filter by category
@@ -102,19 +104,10 @@ const Collection = () => {
     
         productCopy = sortProducts(productCopy, sortOption);
         setFilteredProducts(productCopy);
-    }
-    
-
-    useEffect(()=>{
-        filterApplied();
     },[category,subCategory,sizeCategory,sortOption])
 
 
-    useEffect(()=>{
-        console.log(category);
-        console.log(subCategory);
-        console.log(sizeCategory);
-    },[category,subCategory,sizeCategory])
+    const { showSearch, setShowSearch } = useContext(AppContext);
 
     return (
         <div>
@@ -122,6 +115,14 @@ const Collection = () => {
                 <hr className="text-gray-300 mb-4" />
                 <Heading text1={"OUR"} text2={"COLLECTION"} />
             </div>
+            {
+                showSearch && (
+                    <div className="flex-1 lg:w-3/4 m-auto mb-2 flex items-center justify-between sm:px-4 py-2 rounded-full cursor-pointer gap-4">
+                        <input type="search" placeholder="Search Voguer..." className="w-full border border-gray-400 rounded-full px-4 py-2 focus:outline-none focus:border-gray-500" />
+                        <CircleX onClick={()=>setShowSearch(false)} className="cursor-pointer text-gray-400" />
+                    </div>
+                )
+            }
             <div className="flex justify-between items-center relative z-20">
                 {/* filter */}
                 <div 
