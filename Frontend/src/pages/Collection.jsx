@@ -41,6 +41,7 @@ const Collection = () => {
     const [sizeCategory, SetSizeCategory] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);  
     const [sortOption, setSortOption] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     const toggleCategory = (e) => {
         if(category.includes(e.target.value)){
@@ -82,9 +83,16 @@ const Collection = () => {
         }
     };
 
+    const { showSearch, setShowSearch } = useContext(AppContext);
+
     useEffect(()=>{
         let productCopy = products.slice();
-    
+        
+        // Filter by search text
+        if(showSearch && searchText){
+            productCopy = productCopy.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+        }
+
         // Filter by category
         if (category.length > 0) {
             productCopy = productCopy.filter(item => category.includes(item.category));
@@ -104,10 +112,7 @@ const Collection = () => {
     
         productCopy = sortProducts(productCopy, sortOption);
         setFilteredProducts(productCopy);
-    },[category,subCategory,sizeCategory,sortOption])
-
-
-    const { showSearch, setShowSearch } = useContext(AppContext);
+    },[category,subCategory,sizeCategory,sortOption,searchText,showSearch]);
 
     return (
         <div>
@@ -118,7 +123,7 @@ const Collection = () => {
             {
                 showSearch && (
                     <div className="flex-1 lg:w-3/4 m-auto mb-2 flex items-center justify-between sm:px-4 py-2 rounded-full cursor-pointer gap-4">
-                        <input type="search" placeholder="Search Voguer..." className="w-full border border-gray-400 rounded-full px-4 py-2 focus:outline-none focus:border-gray-500" />
+                        <input onChange={(e) => setSearchText(e.target.value)} type="search" placeholder="Search Voguer..." className="w-full border border-gray-400 rounded-full px-4 py-2 focus:outline-none focus:border-gray-500" />
                         <CircleX onClick={()=>setShowSearch(false)} className="cursor-pointer text-gray-400" />
                     </div>
                 )
