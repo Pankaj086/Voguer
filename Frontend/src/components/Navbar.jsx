@@ -10,7 +10,7 @@ const Navbar = () => {
 
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
-    const  { setShowSearch } = useContext(AppContext);
+    const  { setShowSearch, totalItems } = useContext(AppContext);
 
     const searchBarHandler = () => {
         navigate('/collection');
@@ -58,7 +58,7 @@ const Navbar = () => {
                 </div>
                 <Link to="/cart" className="relative">
                     <ShoppingBag className="w-6 h-6 cursor-pointer"/>
-                    <p className="absolute -right-2 top-3 w-4 bg-red-500 text-white text-center leading-4 aspect-square rounded-full text-[10px]">10</p>
+                    <p className="absolute -right-2 top-3 w-4 bg-red-500 text-white text-center leading-4 aspect-square rounded-full text-[10px]">{totalItems}</p>
                 </Link>
                 <Menu onClick={()=>setVisible(true)} className="block sm:hidden cursor-pointer"/>
             </div>

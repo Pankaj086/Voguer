@@ -15,7 +15,7 @@ const Product = () => {
     const [recommendedProducts, setRecommendedProducts] = useState([]);
 
     const product = products.find(product => product._id === productId);
-    const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+    const [selectedSize, setSelectedSize] = useState("");
 
     useEffect(() => {
         if (product) {
@@ -33,6 +33,7 @@ const Product = () => {
         if (product && product.image && product.image.length > 0) {
             setMainImage(product.image[0]);
         }
+        setSelectedSize("");
     }, [product]);
 
     if (!product) return <div className="py-10 text-center">Product not found</div>;
