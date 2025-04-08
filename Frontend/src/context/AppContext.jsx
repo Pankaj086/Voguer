@@ -35,6 +35,35 @@ const AppProvider = ({children}) => {
             // toast.success("Item added")
         }
     }
+
+    const removeFromCart = (productId,size) => {
+        const cartData = structuredClone(cartItems);
+        if(cartData[productId]){
+            if(cartData[productId][size]){
+                if(cartData[productId][size] > 1){
+                    cartData[productId][size] -= 1;
+                }
+                else{
+                    deleteFromCart(productId,size);
+                }
+            }
+        }
+        setCartItems(cartData)
+    }
+
+    const deleteFromCart = (productId,size) => {
+        const cartData = structuredClone(cartItems);
+        if(cartData[productId]){
+            if(cartData[productId][size]){
+                delete cartData[productId][size];
+                if(Object.keys(cartData[productId]).length === 0){
+                    delete cartData[productId];
+                }
+            }
+        }
+        toast.success("Item removed")
+        setCartItems(cartData)
+    }
     
     useEffect(()=>{
         console.log(cartItems);
@@ -48,7 +77,7 @@ const AppProvider = ({children}) => {
     },[cartItems])  
 
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart}}>
             {children}
         </AppContext.Provider>
     )
