@@ -76,8 +76,18 @@ const AppProvider = ({children}) => {
         setTotalItems(total);
     },[cartItems])  
 
+    const cart = [];
+
+    for(let productId in cartItems){
+        for(let size in cartItems[productId]){
+            const product = products.find(product => product._id === productId);
+            if(!product) continue;
+            cart.push({product, size, quantity: cartItems[productId][size]})
+        }
+    }
+
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart}}>
             {children}
         </AppContext.Provider>
     )
