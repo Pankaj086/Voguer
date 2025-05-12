@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema({
         }
     ],
     date:{
-        type: Date,
+        type: Number,
         required: true,
     },
 },{timestamps: true});
