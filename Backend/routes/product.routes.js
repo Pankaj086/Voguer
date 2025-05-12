@@ -30,6 +30,6 @@ productRouter.route("/add").post(
 );
 productRouter.route("/remove").post(verifyJWT,removeProduct);
 productRouter.route("/details").post(verifyJWT,getProductInfo);
-productRouter.route("/list").get(verifyJWT,listProducts);
+productRouter.route("/list").get(listProducts);
 
 export default productRouter;
