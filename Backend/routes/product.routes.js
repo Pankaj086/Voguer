@@ -2,11 +2,12 @@ import { Router } from "express";
 import { addProduct, removeProduct, listProducts, getProductInfo } from "../controllers/product.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 import upload from "../middleware/multer.middleware.js";
+import adminAuth from "../middleware/admin.auth.middleware.js";
 
 const productRouter = Router();
 
 productRouter.route("/add").post(
-    
+    adminAuth,
     upload.fields([
         {
             name:'image1',
@@ -28,7 +29,7 @@ productRouter.route("/add").post(
 
     addProduct
 );
-productRouter.route("/remove").post(removeProduct);
+productRouter.route("/remove").post(adminAuth, removeProduct);
 productRouter.route("/details").post(getProductInfo);
 productRouter.route("/list").get(listProducts);
 
