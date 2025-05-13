@@ -28,8 +28,8 @@ productRouter.route("/add").post(
 
     addProduct
 );
-productRouter.route("/remove").post(verifyJWT,removeProduct);
-productRouter.route("/details").post(verifyJWT,getProductInfo);
+productRouter.route("/remove").post(removeProduct);
+productRouter.route("/details").post(getProductInfo);
 productRouter.route("/list").get(listProducts);
 
 export default productRouter;

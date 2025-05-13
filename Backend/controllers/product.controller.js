@@ -73,12 +73,12 @@ const addProduct = async(req,res) => {
 const listProducts = async(req,res) => {
     try {
         const products = await Product.find();
-    
-        console.log(products);
+        // console.log(products);
 
         res.status(200).json({
             success:true,
             message:"All Products Fetched",
+            products
         })
 
     } catch (error) {
@@ -91,13 +91,60 @@ const listProducts = async(req,res) => {
 }
 
 // function for removing product
-const removeProduct = async(req,res) => {
-    
-}
+const removeProduct = async (req, res) => {
+    try {
+        const product_id = req.body.id;
+
+        const deletedProduct = await Product.findByIdAndDelete(product_id);
+
+        if (!deletedProduct) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Product removed",
+            product: deletedProduct
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 
 // function for info of a single product
-const getProductInfo = async(req,res) => {
+const getProductInfo = async (req, res) => {
+    try {
+        const { product_id } = req.body;
+        const product = await Product.findById(product_id);
 
-}
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product doesn't exist"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Product found",
+            product: product
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 
 export { addProduct, removeProduct, getProductInfo, listProducts}
