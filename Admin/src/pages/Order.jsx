@@ -1,6 +1,6 @@
 import React from 'react'
 
-const List = () => {
+const Order = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const List = () => {
   )
 }
 
-export default List
+export default Order

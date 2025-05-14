@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Add from './pages/add.jsx';
-import List from './pages/list.jsx';
-import Orders from './pages/orders.jsx';
+import AddProduct from './pages/AddProduct.jsx';
+import ListProducts from './pages/ListProducts.jsx';
+import Order from './pages/Order.jsx';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import { Route, Routes } from 'react-router-dom';
@@ -31,9 +31,9 @@ const App = () => {
             <Sidebar />
             <div className='w-[70%] mx-auto ml-[max(5vw,25px)] my-8 text-gray-600 text-base'>
               <Routes>
-                <Route path='/add' element={<Add token={token} />} />
-                <Route path='/list' element={<List token={token} />} />
-                <Route path='/orders' element={<Orders token={token} />} />
+                <Route path='/add' element={<AddProduct token={token} />} />
+                <Route path='/list' element={<ListProducts token={token} />} />
+                <Route path='/orders' element={<Order token={token} />} />
               </Routes>
             </div>
           </div>
