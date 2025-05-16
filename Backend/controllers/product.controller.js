@@ -122,8 +122,10 @@ const removeProduct = async (req, res) => {
 // function for info of a single product
 const getProductInfo = async (req, res) => {
     try {
-        const { product_id } = req.body;
-        const product = await Product.findById(product_id);
+        const id  = req.body.id;
+        // console.log(id);
+        
+        const product = await Product.findById(id);
 
         if (!product) {
             return res.status(404).json({
