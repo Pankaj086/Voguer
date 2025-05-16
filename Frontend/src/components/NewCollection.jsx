@@ -1,16 +1,22 @@
-import { useEffect, useState } from "react";
-import { products } from "../assets/frontend_assets/assets";
+import { useContext, useEffect, useState } from "react";
 import Heading from "./Heading";
 import ProductCard from "./ProductCard";
 import SliderTemplate from "../utility/SliderTemplate";
+import { AppContext } from "../context/AppContext";
+import ProductCardShimmer from "./ProductCardShimmer";
+
 
 const NewCollection = () => {
     
+    const { products, loading } = useContext(AppContext);
+
     const [latestProducts, setLatestProducts] = useState([]);
 
-    useEffect(()=>{
-        setLatestProducts(products.slice(15,25));
-    },[])
+    useEffect(() => {
+        if (!loading && products.length > 0) {
+            setLatestProducts(products.slice(32, 37));
+        }
+    }, [loading, products]);
 
     return (
         <div className="my-10">
@@ -20,14 +26,21 @@ const NewCollection = () => {
                     Discover our collection of new arrivals featuring the hottest styles, top trends, and exclusive pieces.
                 </p>
             </div>
-            <SliderTemplate>
-                {
-                latestProducts.map((product, index) => (
-                    <ProductCard key={index} product={product}/>
-                ))}
-            </SliderTemplate>
+    
+            {loading ? (
+                <div className="px-4">
+                    <ProductCardShimmer />
+                </div>
+            ) : (
+                <SliderTemplate>
+                    {latestProducts.map((product, index) => (
+                        <ProductCard key={index} product={product} />
+                    ))}
+                </SliderTemplate>
+            )}
         </div>
     );
+    
 };
 
 export default NewCollection;

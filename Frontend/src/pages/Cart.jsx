@@ -7,6 +7,8 @@ import CartTotal from "../utility/CartTotal";
 
 const Cart = () => {
     const { addToCart, removeFromCart, deleteFromCart, cart } = useContext(AppContext);
+    console.log("cart",cart);
+    
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -27,14 +29,14 @@ const Cart = () => {
                     <div key={index} className="sm:grid sm:grid-cols-6 py-4 place-items-center border-b border-gray-400">
                         {/* Product Info */}
                         <div className="flex justify-start sm:justify-center items-start gap-4 mb-4 sm:mb-0">
-                            <img src={item.product.image[0]} alt="" className="w-20 h-20 object-cover rounded-md" />
+                            <img src={item.product?.images[0]} alt="" className="w-20 h-20 object-cover rounded-md" />
                             <div>
                                 <h2 className="text-sm sm:text-base text-gray-800 source-sans-3 font-semibold">{item.product.name}</h2>
                                 <p className="text-sm source-sans-3 text-gray-500">{item.product.subCategory}</p>
                                 {/* Mobile: Show size and price */}
                                 <div className="sm:hidden mt-2 space-y-1">
                                     <p className="text-sm text-gray-600">Size: {item.size}</p>
-                                    <p className="text-sm text-gray-600">Price: ${item.product.discountPrice}</p>
+                                    <p className="text-sm text-gray-600">Price: ${item.product.discount}</p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +45,7 @@ const Cart = () => {
                         <p className="hidden sm:block">{item.size}</p>
 
                         {/* Price - Hidden on mobile */}
-                        <p className="hidden sm:block">${item.product.discountPrice}</p>
+                        <p className="hidden sm:block">${item.product.discount}</p>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2 justify-center mb-4 sm:mb-0">
@@ -65,7 +67,7 @@ const Cart = () => {
                         {/* Total */}
                         <div className="flex justify-between items-center sm:block w-full sm:w-auto mb-4 sm:mb-0">
                             <span className="sm:hidden">Total:</span>
-                            <p className="font-medium">${item.quantity * item.product.discountPrice}</p>
+                            <p className="font-medium">${item.quantity * item.product.discount}</p>
                         </div>
 
                         {/* Remove Button */}

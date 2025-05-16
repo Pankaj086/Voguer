@@ -23,7 +23,7 @@ const CartTotal = () => {
     useEffect(()=>{
         let total = 0;
         cart.map(item=>{
-            total += item.product.discountPrice * item.quantity;
+            total += item.product.discount * item.quantity;
         })
         setTotalPrice(total);
     }, [cartItems, cart])

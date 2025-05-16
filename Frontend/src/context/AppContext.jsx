@@ -1,7 +1,8 @@
 import { useState, createContext, useEffect } from "react";
-import { products } from "../assets/frontend_assets/assets";
+// import { products } from "../assets/frontend_assets/assets";
 // import { Toast } from ToastContainer
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AppContext = createContext();
 
@@ -10,6 +11,9 @@ const AppProvider = ({children}) => {
     const [cartItems, setCartItems] = useState({});
     const [showSearch, setShowSearch] = useState(false);
     const [totalItems, setTotalItems] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const addToCart = async (productId,size) => {
         // to create the copy of cart item object
@@ -86,8 +90,33 @@ const AppProvider = ({children}) => {
         }
     }
 
+    const fetchproducts = async() => {
+        try {
+
+            const response = await axios.get(BACKEND_URL+"/api/v1/products/list");
+            // console.log(response.data.products);
+            if(response.data.success){
+                setProducts(response.data.products);
+                setLoading(false);
+            }
+            else{
+                console.log(response.data.message);
+                toast.error(response.data.message)
+            }
+
+        } catch (error) {
+            console.log(error.message);
+            toast.error(error.message)
+        }
+        
+    }
+
+    useEffect(()=>{
+        fetchproducts();
+    },[])
+
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading}}>
             {children}
         </AppContext.Provider>
     )

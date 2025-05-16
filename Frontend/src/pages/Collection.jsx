@@ -3,12 +3,13 @@ import { PlusCircle as CirclePlus, ArrowDownUp, X } from "lucide-react"
 import { IoIosOptions } from "react-icons/io"
 import Heading from "../components/Heading"
 import "./Collection.css"
-import { products } from "../assets/frontend_assets/assets"
 import ProductCard from "../components/ProductCard"
 import { AppContext } from "../context/AppContext"
 import { CircleX } from 'lucide-react';
+import ProductCardShimmer from "../components/ProductCardShimmer"
 
 const Dropdown = ({ title, options, open, toggleOpen, cate }) => {
+
     return (
         <div>
             <div className="flex items-center gap-2">
@@ -31,6 +32,9 @@ const Dropdown = ({ title, options, open, toggleOpen, cate }) => {
 }
 
 const Collection = () => {
+    
+    const { loading } = useContext(AppContext);
+
     const [sortDropDown, setSortDropDown] = useState(false)
     const [dropDown, setDropDown] = useState(false)
     const [categoryOpen, setCategoryOpen] = useState(true)
@@ -73,9 +77,9 @@ const Collection = () => {
     const sortProducts = (products, option) => {
         switch (option) {
             case 'Price':
-                return products.sort((a, b) => a.discountPrice - b.discountPrice);
+                return products.sort((a, b) => a.discount - b.discount);
             case 'Rating':
-                return products.sort((a, b) => b.rating - a.rating);
+                return products.sort((a, b) => b.ratings - a.ratings);
             case 'Latest Arrival':
                 return products.sort((a, b) => b.date - a.date);
             default:
@@ -83,7 +87,9 @@ const Collection = () => {
         }
     };
 
-    const { showSearch, setShowSearch } = useContext(AppContext);
+    const { showSearch, setShowSearch, products } = useContext(AppContext);
+    console.log("in coll",products);
+    
 
     useEffect(()=>{
         let productCopy = products.slice();
@@ -217,11 +223,20 @@ const Collection = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 my-5 z-0">
-                {filteredProducts.map((product,index) => (
-                    <ProductCard key={index} product={product}/>
-                ))}
-            </div>
+
+            {
+                loading ?
+
+                <ProductCardShimmer/>
+
+                :
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 my-5 z-0">
+                    {filteredProducts.map((product,index) => (
+                        <ProductCard key={index} product={product}/>
+                    ))}
+                </div>
+            }
         </div>
     )
 }
