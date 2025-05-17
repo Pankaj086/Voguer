@@ -1,20 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import {AppContext} from "../context/AppContext.jsx";
+import { toast } from 'react-toastify';
 
 const Login = () => {
+
+    const { BACKEND_URL, token, setToken } = useContext(AppContext);
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault()
-        // Handle login logic here
-        console.log("Login clicked")
-        navigate('/')
+    
+        try {
+
+                const response = await axios.post(BACKEND_URL + "/api/v1/users/login" ,{email,password}, { withCredentials: true })
+        
+                if(response.data.success){
+                    setToken(response.data.accessToken)
+                    toast.success(response.data.message);
+                    localStorage.setItem("token",response.data.accessToken)
+                }
+                else{
+                    toast.error(response.data.message);
+                }
+
+        } catch (error) {
+                toast.error(error.message);
+                console.log(error.message);
+        }
+
     }
     
+    useEffect(()=>{
+        if(token){
+            navigate("/")
+        }
+    },[token])
+
     return (
         <div className="flex flex-col gap-2 mt-12 w-full md:w-3/7 mx-auto sm:border border-gray-400 p-4 rounded-md sm:shadow-md bg-white">
             <div className="flex flex-col gap-2">

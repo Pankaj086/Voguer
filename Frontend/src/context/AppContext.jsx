@@ -14,6 +14,7 @@ const AppProvider = ({children}) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const [token, setToken] = useState("");
 
     const addToCart = async (productId,size) => {
         // to create the copy of cart item object
@@ -115,8 +116,14 @@ const AppProvider = ({children}) => {
         fetchproducts();
     },[])
 
+    useEffect(()=>{
+        if(!token && localStorage.getItem("token")){
+            setToken(localStorage.getItem("token"));
+        }
+    },[])
+
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems}}>
             {children}
         </AppContext.Provider>
     )

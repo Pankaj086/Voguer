@@ -88,7 +88,7 @@ const Collection = () => {
     };
 
     const { showSearch, setShowSearch, products } = useContext(AppContext);
-    console.log("in coll",products);
+    // console.log("in coll",products);
     
 
     useEffect(()=>{

@@ -5,16 +5,40 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import "./Navbar.css";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
 
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
-    const  { setShowSearch, totalItems } = useContext(AppContext);
+    const  { setShowSearch, totalItems, token, setToken, setCartItems, BACKEND_URL } = useContext(AppContext);
 
     const searchBarHandler = () => {
         navigate('/collection');
         setShowSearch(true);
+    }
+
+    const logoutHandler = async () => {
+        try {
+            const response = await axios.post(BACKEND_URL+"/api/v1/users/logout",{}, { withCredentials: true, });
+            console.log("log",response);
+
+            if(response.data.success){
+                localStorage.removeItem("token");
+                setToken("");
+                setCartItems("");
+                navigate("/login");
+                toast.success(response.data.message);
+            }
+            else{
+                toast.error(response.data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+            console.log(error.message);
+        }
     }
     
     
@@ -47,13 +71,16 @@ const Navbar = () => {
             <div className="flex gap-6 items-center">
                 <Search onClick={searchBarHandler} className="w-6 h-6 cursor-pointer"/>
                 <div className="group relative">
-                    <User onClick={()=>navigate("/login")} className="w-6 h-6 cursor-pointer"/>
-                    <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-                        <div className="flex flex-col gap-2 w-32 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                            <p className="cursor-pointer hover:text-black">Profile</p>
-                            <p className="cursor-pointer hover:text-black">Orders</p>
-                            <p className="cursor-pointer hover:text-black">Logout</p>
-                        </div>
+                    <User onClick={()=> token ? null : navigate("/login")} className="w-6 h-6 cursor-pointer"/>
+                    <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-100">
+                        {
+                            token && 
+                            <div className="flex flex-col gap-2 w-32 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                                <p className="cursor-pointer hover:text-black">Profile</p>
+                                <p onClick={()=>navigate("/orders")} className="cursor-pointer hover:text-black">Orders</p>
+                                <p onClick={logoutHandler} className="cursor-pointer hover:text-black">Logout</p>
+                            </div>
+                        }
                     </div>
                 </div>
                 <Link to="/cart" className="relative">
