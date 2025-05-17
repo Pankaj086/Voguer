@@ -60,23 +60,41 @@ const registerUser = async (req, res) => {
             password,
         });
 
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+        console.log(accessToken);
+        console.log(refreshToken);
+        
+        
+
         const createdUser = await User.findById(user._id).select("-password -refreshToken");
 
         if (!createdUser) {
             return res.status(503).json({ message: 'Error creating user' });
         }
 
+        const options = {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        };
+
         // console.log(user);
-        res.status(200).json({ 
-            message: 'User registered successfully',
-            createdUser,
-            success: true
-        });
+
+        return res.status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json({
+                message: 'User registered successfully',
+                createdUser,
+                accessToken,
+                refreshToken,
+                success: true
+            });
 
     } catch (error) {
         console.error(error);
         res.status(500).json({ 
-            message: 'Internal server error' });
+            message: 'Internal server error during registration' });
         
     }
 }
@@ -115,12 +133,12 @@ const loginUser = async (req, res) => {
             return res.status(503).json({ message: 'Error logging in user' });
         }
 
-        // cookies
         const options = {
             // cookie jo hoti hai use koi bhi frontend se modify kar sakta hai jab httpOnly and secure kar deta hai tab usko sirf sever se hi modify kiya ja sakta hai
-            httpOnly: true,
+            httpOnly: true,  // Cannot be accessed via JavaScript (only sent with HTTP requests)
             secure: true,
-        }
+            sameSite: 'None', // Allows cross-origin cookie transmission (important for cross-origin requests)
+        };
 
         return res.status(200)
         .cookie("accessToken", accessToken, options)
@@ -159,8 +177,8 @@ const logoutUser = async (req, res) => {
         }
 
         return res.status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
+        .clearCookie("accessToken",options)
+        .clearCookie("refreshToken",options)
         .json({
             message: 'User logged out successfully',
             success: true
