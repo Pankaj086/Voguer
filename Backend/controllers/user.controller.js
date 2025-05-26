@@ -61,8 +61,8 @@ const registerUser = async (req, res) => {
         });
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
-        console.log(accessToken);
-        console.log(refreshToken);
+        // console.log(accessToken);
+        // console.log(refreshToken);
         
         
 
@@ -161,8 +161,8 @@ const logoutUser = async (req, res) => {
             req.user._id,
             // what to update
             {
-                $set: {
-                    refreshToken: undefined,
+                $unset: {
+                    refreshToken: 1,
                 }
             },
             {
@@ -219,4 +219,4 @@ const adminLogin = async (req, res) => {
     }
 }
 
-export { registerUser, loginUser, logoutUser, adminLogin };
+export { registerUser, loginUser, logoutUser, adminLogin, generateAccessAndRefreshToken };

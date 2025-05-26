@@ -31,22 +31,14 @@ const userSchema = new mongoose.Schema({
             ref: "Product",
         }
     ],
-    cart:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product",
-        }
-    ],
-    orders:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Order",
-        }
-    ],
+    cart:{
+        type: Object,
+        default: {}
+    },
     refreshToken:{
         type: String,
     },
-},{timestamps: true});
+},{timestamps: true, minimize: false});
 
 // .pre is used here to hash the password before saving it to the database
 userSchema.pre("save", async function(next){
