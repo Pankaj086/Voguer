@@ -14,11 +14,11 @@ const Orders = () => {
                     cart.map((item,index)=>(
                         <div key={index} className="border-b border-gray-300 py-4 flex justify-between items-center gap-4">
                             <div className="flex justify-start items-start gap-4 mb-4 sm:mb-0">
-                                <img src={item.product.image[0]} alt="" className="w-20 h-20 object-cover rounded-md" />
+                                <img src={item.product?.images[0]} alt="" className="w-20 h-20 object-cover rounded-md" />
                                 <div className="flex flex-col gap-2">
                                     <h2 className="text-sm sm:text-base text-gray-800 source-sans-3 font-semibold">{item.product.name}</h2>
                                     <div className="flex gap-2">
-                                    <p className="text-sm text-gray-600 source-sans-3">${item.product.discountPrice * item.quantity}</p>
+                                    <p className="text-sm text-gray-600 source-sans-3">${item.product.discount * item.quantity}</p>
                                     <p className="text-sm text-gray-600 source-sans-3">Size: {item.size}</p>
                                     <p className="text-sm text-gray-600 source-sans-3">Quantity: {item.quantity}</p>
                                     </div>

@@ -62,6 +62,15 @@ const Product = () => {
         return <ProductShimmer />;
     }
 
+    const addToCartHandler = async(productId, size) => {
+        console.log(productId,size);
+        console.log("clicked");
+        
+        const response = await axios.post(BACKEND_URL + "/api/v1/cart/add", {productId,size}, { withCredentials: true, });
+        console.log("add",response);
+        
+    }
+
     return (
         <div className="w-full max-w-7xl mx-auto mt-6 px-2 py-2">
             <div className="flex flex-col lg:flex-row">
@@ -147,7 +156,7 @@ const Product = () => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full">
-                        <button onClick={()=>addToCart(id,selectedSize)} className="flex-1 flex items-center justify-center gap-2 bg-amber-700 text-white py-3 px-4 rounded-sm hover:bg-amber-800 transition-colors cursor-pointer">
+                        <button onClick={() => addToCartHandler(id,selectedSize)} className="flex-1 flex items-center justify-center gap-2 bg-amber-700 text-white py-3 px-4 rounded-sm hover:bg-amber-800 transition-colors cursor-pointer">
                             <ShoppingBag className="w-5 h-5"/>
                             <span className="source-sans-3">ADD TO BAG</span>
                         </button>

@@ -19,6 +19,28 @@ const Navbar = () => {
         setShowSearch(true);
     }
 
+    // const logoutHandler = async () => {
+    //     try {
+    //         const response = await axios.post(BACKEND_URL+"/api/v1/users/logout",{}, { withCredentials: true, });
+    //         console.log("log",response);
+
+    //         if(localStorage.getItem('token')){
+    //             localStorage.removeItem("token");
+    //             setToken("");
+    //             setCartItems("");
+    //             navigate("/login");
+    //             toast.success("Logged Out Successfully");
+    //         }
+    //         else{
+    //             toast.error("Error in logging out");
+    //         }
+
+    //     } catch (error) {
+    //         toast.error(error.message);
+    //         console.log(error.message);
+    //     }
+    // }
+
     const logoutHandler = async () => {
         try {
             const response = await axios.post(BACKEND_URL+"/api/v1/users/logout",{}, { withCredentials: true, });
