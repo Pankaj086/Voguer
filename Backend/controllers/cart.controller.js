@@ -8,35 +8,35 @@ const addToCart = async(req, res) => {
         const { productId, size } = req.body;
         const user = req?.user;
 
-        // const product = await Product.findById(productId);
+        let cart = await user.cart;
 
-        let cartData = await user.cart;
-        
-        if(cartData[productId]){
-            if(cartData[productId][size]){
-                cartData[productId][size] += 1;
+        if(cart[productId]){
+            if(cart[productId][size]){
+                cart[productId][size] += 1;
             }
             else{
-                cartData[productId][size] = 1;
+                cart[productId][size] = 1;
             }
         }
         else{
-            cartData[productId] = {};
-            cartData[productId][size] = 1;
+            cart[productId] = {};
+            cart[productId][size] = 1;
         }
 
-        await User.findByIdAndUpdate(user._id,{cartData})
+        await User.findByIdAndUpdate(user._id,{cart})
 
         return res.status(200).json({
             success:true,
-            message: "Added to Cart"
+            message: "Added to Cart",
+            data
         })
 
     } catch (error) {
         console.log(error);
         res.status(501).json({
             success: false,
-            message: error.message
+            message: error.message,
+            cart
         })
         
     }
@@ -72,14 +72,14 @@ const updateCart = async(req, res) => {
 const getUserCart = async(req, res) => {
     try {
         
-        const { user } = req.body;
+        const user  = req.user;
 
-        const cartData = await user.cart
-
+        const cart = await user.cart;
+        
         return res.status(200).json({
             success:true,
             message: "Cart Fetched",
-            cartData,
+            cart,
         })
 
     } catch (error) {
