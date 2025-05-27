@@ -51,13 +51,15 @@ export const verifyJWT = async (req, res, next) => {
                 res.cookie("accessToken", accessToken, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "Strict",
+                    sameSite: "None",
+                    path: '/'  // Add this to ensure cookies are accessible across all paths
                 });
 
                 res.cookie("refreshToken", refreshToken, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "Strict",
+                    sameSite: "None",
+                    path: '/'  // Add this to ensure cookies are accessible across all paths
                 });
 
                 // decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
@@ -68,7 +70,7 @@ export const verifyJWT = async (req, res, next) => {
         }
 
         const user = await User.findById(decodedToken?.id).select("-password -refreshToken");
-        console.log(user);
+        // console.log(user);
         
 
         if (!user) {

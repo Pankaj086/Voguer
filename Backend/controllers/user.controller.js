@@ -76,6 +76,7 @@ const registerUser = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
+            path: '/'  // Add this to ensure cookies are accessible across all paths
         };
 
         // console.log(user);
@@ -138,6 +139,7 @@ const loginUser = async (req, res) => {
             httpOnly: true,  // Cannot be accessed via JavaScript (only sent with HTTP requests)
             secure: true,
             sameSite: 'None', // Allows cross-origin cookie transmission (important for cross-origin requests)
+            path: '/'  // Add this to ensure cookies are accessible across all paths
         };
 
         return res.status(200)
@@ -174,11 +176,13 @@ const logoutUser = async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
+            sameSite: 'None',
+            path: '/'  // Add this to ensure cookies are accessible across all paths
         }
 
         return res.status(200)
-        .clearCookie("accessToken",options)
-        .clearCookie("refreshToken",options)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
         .json({
             message: 'User logged out successfully',
             success: true

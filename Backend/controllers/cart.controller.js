@@ -28,7 +28,6 @@ const addToCart = async(req, res) => {
         return res.status(200).json({
             success:true,
             message: "Added to Cart",
-            data
         })
 
     } catch (error) {
@@ -36,7 +35,6 @@ const addToCart = async(req, res) => {
         res.status(501).json({
             success: false,
             message: error.message,
-            cart
         })
         
     }

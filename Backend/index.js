@@ -15,18 +15,25 @@ const port = process.env.PORT || 5000;
 connectDB();
 connectCloudinary();
 
+// const corsOptions = {
+//     origin: ["http://localhost:5173", "https://hackoclock-axion-ai-frontend.vercel.app"],
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true, // Enable cookies in requests and responses
+// };
+
 const corsOptions = {
-    origin: ["http://localhost:5173", "https://hackoclock-axion-ai-frontend.vercel.app"],
+    origin: 'http://localhost:5173',
+    credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Enable cookies in requests and responses
+    allowedHeaders: ["Content-Type", "Authorization", "x-access-token", "x-refresh-token", "token"]
 };
 
 // middleware
-app.use(cookieParser());
 app.use(express.json());
  // Add this middleware to parse cookies
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // api endpoints
 app.get('/', (req, res) => res.status(200).send('API is running'));
