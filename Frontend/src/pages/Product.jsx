@@ -12,7 +12,7 @@ import ProductCardShimmer from "../components/ProductCardShimmer";
 
 const Product = () => {
 
-    const { BACKEND_URL } = useContext(AppContext);
+    const { BACKEND_URL, token } = useContext(AppContext);
     const { id } = useParams();
     
     const { products, addToCart, loading } = useContext(AppContext);
@@ -63,11 +63,24 @@ const Product = () => {
     }
 
     const addToCartHandler = async(productId, size) => {
-        console.log(productId,size);
-        console.log("clicked");
         
-        const response = await axios.post(BACKEND_URL + "/api/v1/cart/add", {productId,size}, { withCredentials: true, });
-        console.log("add",response);
+        try {
+            
+            const response = await axios.post(
+                BACKEND_URL + "/api/v1/cart/add", 
+                {productId,size}, 
+                { 
+                    withCredentials: true,
+                    headers: { 
+                        Authorization: `Bearer ${token}` // Use standard Authorization header format
+                    }
+                }
+            );
+            console.log("add",response);
+
+        } catch (error) {
+            
+        }
         
     }
 

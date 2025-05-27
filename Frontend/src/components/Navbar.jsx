@@ -19,37 +19,23 @@ const Navbar = () => {
         setShowSearch(true);
     }
 
-    // const logoutHandler = async () => {
-    //     try {
-    //         const response = await axios.post(BACKEND_URL+"/api/v1/users/logout",{}, { withCredentials: true, });
-    //         console.log("log",response);
-
-    //         if(localStorage.getItem('token')){
-    //             localStorage.removeItem("token");
-    //             setToken("");
-    //             setCartItems("");
-    //             navigate("/login");
-    //             toast.success("Logged Out Successfully");
-    //         }
-    //         else{
-    //             toast.error("Error in logging out");
-    //         }
-
-    //     } catch (error) {
-    //         toast.error(error.message);
-    //         console.log(error.message);
-    //     }
-    // }
-
     const logoutHandler = async () => {
         try {
-            const response = await axios.post(BACKEND_URL+"/api/v1/users/logout",{}, { withCredentials: true, });
-            console.log("log",response);
-
+            const response = await axios.post(
+                BACKEND_URL+"/api/v1/users/logout", 
+                {}, // empty body
+                { 
+                    withCredentials: true,
+                    headers: { 
+                        Authorization: `Bearer ${token}` // Use standard Authorization header format
+                    }
+                }
+            );
+            
             if(response.data.success){
                 localStorage.removeItem("token");
                 setToken("");
-                setCartItems("");
+                setCartItems([]);  // Changed from empty string to empty array if cartItems is an array
                 navigate("/login");
                 toast.success(response.data.message);
             }
@@ -58,8 +44,8 @@ const Navbar = () => {
             }
 
         } catch (error) {
-            toast.error(error.message);
-            console.log(error.message);
+            toast.error(error?.response?.data?.message || "Error logging out");
+            console.error("Logout error:", error);
         }
     }
     

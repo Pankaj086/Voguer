@@ -18,7 +18,11 @@ const Login = () => {
     
         try {
 
-                const response = await axios.post(BACKEND_URL + "/api/v1/users/login" ,{email,password}, { withCredentials: true })
+                const response = await axios.post(
+                    BACKEND_URL + "/api/v1/users/login" ,
+                    {email,password}, 
+                    { withCredentials: true }
+                )
         
                 if(response.data.success){
                     setToken(response.data.accessToken)
