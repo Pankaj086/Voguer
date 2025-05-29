@@ -12,10 +12,9 @@ import ProductCardShimmer from "../components/ProductCardShimmer";
 
 const Product = () => {
 
-    const { BACKEND_URL, token } = useContext(AppContext);
     const { id } = useParams();
     
-    const { products, addToCart, loading } = useContext(AppContext);
+    const { products, addToCart, loading, BACKEND_URL, token } = useContext(AppContext);
     const [mainImage, setMainImage] = useState("");
     const [product, setProducts] = useState([]);
     const [recommendedProducts, setRecommendedProducts] = useState([]);
@@ -60,28 +59,6 @@ const Product = () => {
 
     if (!product || Object.keys(product).length === 0) {
         return <ProductShimmer />;
-    }
-
-    const addToCartHandler = async(productId, size) => {
-        
-        try {
-            
-            const response = await axios.post(
-                BACKEND_URL + "/api/v1/cart/add", 
-                {productId,size}, 
-                { 
-                    withCredentials: true,
-                    headers: { 
-                        Authorization: `Bearer ${token}` // Use standard Authorization header format
-                    }
-                }
-            );
-            console.log("add",response);
-
-        } catch (error) {
-            
-        }
-        
     }
 
     return (
@@ -169,7 +146,7 @@ const Product = () => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full">
-                        <button onClick={() => addToCartHandler(id,selectedSize)} className="flex-1 flex items-center justify-center gap-2 bg-amber-700 text-white py-3 px-4 rounded-sm hover:bg-amber-800 transition-colors cursor-pointer">
+                        <button onClick={() => addToCart(id,selectedSize)} className="flex-1 flex items-center justify-center gap-2 bg-amber-700 text-white py-3 px-4 rounded-sm hover:bg-amber-800 transition-colors cursor-pointer">
                             <ShoppingBag className="w-5 h-5"/>
                             <span className="source-sans-3">ADD TO BAG</span>
                         </button>

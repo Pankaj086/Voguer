@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import CartTotal from "../utility/CartTotal";
 
 const Cart = () => {
-    const { addToCart, removeFromCart, deleteFromCart, cart } = useContext(AppContext);
+    const { addToCart, removeFromCart, deleteFromCart, cart, updateQuantity } = useContext(AppContext);
     console.log("cart",cart);
     
 
@@ -50,15 +50,15 @@ const Cart = () => {
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2 justify-center mb-4 sm:mb-0">
                             <button 
-                                onClick={() => removeFromCart(item.product._id, item.size)}
-                                className="border border-gray-600 w-7 h-7 text-xl flex items-center justify-center hover:bg-gray-100"
+                                onClick={() => item.quantity > 1 && updateQuantity(item.product._id, item.size, item.quantity-1)}
+                                className="border border-gray-600 w-7 h-7 text-xl flex items-center justify-center hover:bg-amber-200 cursor-pointer"
                             >
                                 -
                             </button>
                             <span className="w-8 text-center">{item.quantity}</span>
                             <button 
-                                onClick={() => addToCart(item.product._id, item.size)}
-                                className="border border-gray-600 w-7 h-7 text-xl flex items-center justify-center hover:bg-gray-100"
+                                onClick={() => updateQuantity(item.product._id, item.size, item.quantity+1)}
+                                className="border border-gray-600 w-7 h-7 text-xl flex items-center justify-center hover:bg-amber-200 cursor-pointer"
                             >
                                 +
                             </button>

@@ -3,6 +3,7 @@ import { useState, createContext, useEffect } from "react";
 // import { Toast } from ToastContainer
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
 
@@ -38,6 +39,31 @@ const AppProvider = ({children}) => {
             }
             setCartItems(cartData)
             // toast.success("Item added")
+
+            if(token){
+                try {
+            
+                    const response = await axios.post(
+                        BACKEND_URL + "/api/v1/cart/add", 
+                        {productId,size}, 
+                        { 
+                            withCredentials: true,
+                            headers: { 
+                                Authorization: `Bearer ${token}` // Use standard Authorization header format
+                            }
+                        }
+                    );
+                    console.log("add",response);
+
+                } catch (error) {
+                    console.log(error.response.data.message);
+                    if(error.response.data.message === "Refresh token missing"){
+                        localStorage.setToken('token',"");
+                        // navigate("/login")
+                    }
+                    toast.error("Session expired Login again");
+                }
+            }
         }
     }
 
@@ -68,6 +94,30 @@ const AppProvider = ({children}) => {
         }
         toast.success("Item removed")
         setCartItems(cartData)
+    }
+
+    const updateQuantity = async (productId, size, quantity) => {
+        let cartData = structuredClone(cartItems);
+        cartData[productId][size] = quantity;
+        setCartItems(cartData);
+
+        try {
+            if(token){
+                const response = await axios.post(
+                    BACKEND_URL+ "/api/v1/cart/update",
+                    {productId, size, quantity},
+                    {
+                        withCredentials: true,
+                        headers: { 
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                )
+            }
+        } catch (error) {
+            console.log(error.response.data.message);
+            error.toast("Error in updating quantity");
+        }
     }
     
     useEffect(()=>{
@@ -123,7 +173,7 @@ const AppProvider = ({children}) => {
     },[])
 
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems, updateQuantity}}>
             {children}
         </AppContext.Provider>
     )
