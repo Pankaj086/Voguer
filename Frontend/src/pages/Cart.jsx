@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import CartTotal from "../utility/CartTotal";
 
 const Cart = () => {
-    const { addToCart, removeFromCart, deleteFromCart, cart, updateQuantity } = useContext(AppContext);
+    const { deleteFromCart, cart, updateQuantity } = useContext(AppContext);
     console.log("cart",cart);
     
 

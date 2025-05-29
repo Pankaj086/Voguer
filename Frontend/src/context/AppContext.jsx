@@ -67,22 +67,22 @@ const AppProvider = ({children}) => {
         }
     }
 
-    const removeFromCart = (productId,size) => {
-        const cartData = structuredClone(cartItems);
-        if(cartData[productId]){
-            if(cartData[productId][size]){
-                if(cartData[productId][size] > 1){
-                    cartData[productId][size] -= 1;
-                }
-                else{
-                    deleteFromCart(productId,size);
-                }
-            }
-        }
-        setCartItems(cartData)
-    }
+    // const removeFromCart = (productId,size) => {
+    //     const cartData = structuredClone(cartItems);
+    //     if(cartData[productId]){
+    //         if(cartData[productId][size]){
+    //             if(cartData[productId][size] > 1){
+    //                 cartData[productId][size] -= 1;
+    //             }
+    //             else{
+    //                 deleteFromCart(productId,size);
+    //             }
+    //         }
+    //     }
+    //     setCartItems(cartData)
+    // }
 
-    const deleteFromCart = (productId,size) => {
+    const deleteFromCart = async (productId,size) => {
         const cartData = structuredClone(cartItems);
         if(cartData[productId]){
             if(cartData[productId][size]){
@@ -94,6 +94,24 @@ const AppProvider = ({children}) => {
         }
         toast.success("Item removed")
         setCartItems(cartData)
+
+        if(token){
+            try {
+                const response = await axios.post(
+                    BACKEND_URL+"/api/v1/cart/remove",
+                    { productId, size },
+                    { 
+                        withCredentials: true,
+                        headers: { 
+                            Authorization: `Bearer ${token}` // Use standard Authorization header format
+                        }
+                    }
+                )
+            } catch (error) {
+                console.log(error.response.data.message);
+                error.toast("Error in removing product");
+            }
+        }
     }
 
     const updateQuantity = async (productId, size, quantity) => {
@@ -120,6 +138,29 @@ const AppProvider = ({children}) => {
         }
     }
     
+    const getUserCart = async() => {
+        try {
+            const response = await axios.post(
+                BACKEND_URL+"/api/v1/cart/get",
+                {},
+                {
+                    withCredentials: true,
+                    headers: { 
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            console.log("user cart",response.data);
+
+            if(response.data.success){
+                setCartItems(response.data.cart);
+            }
+        } catch (error) {
+            console.log(error.response.data.message);
+            error.toast("Error fetching user cart");
+        }
+    }
+
     useEffect(()=>{
         console.log(cartItems);
         let total = 0;
@@ -169,11 +210,12 @@ const AppProvider = ({children}) => {
     useEffect(()=>{
         if(!token && localStorage.getItem("token")){
             setToken(localStorage.getItem("token"));
+            getUserCart();
         }
     },[])
 
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, removeFromCart, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems, updateQuantity}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems, updateQuantity}}>
             {children}
         </AppContext.Provider>
     )
