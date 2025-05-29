@@ -67,6 +67,38 @@ const updateCart = async(req, res) => {
     }
 }
 
+const removeItemFromCart = async(req, res) => {
+
+    const { productId, size } = req.body;
+    const user = req?.user;
+
+    let cart = await user.cart;
+
+    if(cart[productId]){
+        if(cart[productId][size]){
+            delete cart[productId][size];
+
+            if(Object.keys(cart[productId]).length === 0){
+                delete cart[productId];
+            }
+        }
+    }
+    else{
+        return res.status(404).json({
+            message:"Item does not exist",
+            success:false
+        })
+    }
+
+    await User.findByIdAndUpdate(user._id,{cart});
+
+    return res.status(200).json({
+        success:true,
+        message: "Item removed from Cart",
+    })
+
+}
+
 // get user cart
 const getUserCart = async(req, res) => {
     try {
@@ -91,4 +123,4 @@ const getUserCart = async(req, res) => {
 }
 
 
-export { addToCart, updateCart, getUserCart };
+export { addToCart, updateCart, getUserCart, removeItemFromCart };

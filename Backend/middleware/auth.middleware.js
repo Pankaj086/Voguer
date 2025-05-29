@@ -25,7 +25,7 @@ export const verifyJWT = async (req, res, next) => {
 
         try {
             decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-            console.log("Token verified successfully");
+            // console.log("Token verified successfully");
         } catch (err) {
             if (err.name === "TokenExpiredError") {
                 const refToken = req.cookies?.refreshToken || req.header("x-refresh-token");
