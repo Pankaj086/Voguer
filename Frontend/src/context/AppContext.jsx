@@ -109,7 +109,7 @@ const AppProvider = ({children}) => {
                 )
             } catch (error) {
                 console.log(error.response.data.message);
-                error.toast("Error in removing product");
+                toast.error("Error in removing product");
             }
         }
     }
@@ -134,7 +134,7 @@ const AppProvider = ({children}) => {
             }
         } catch (error) {
             console.log(error.response.data.message);
-            error.toast("Error in updating quantity");
+            toast.error("Error in updating quantity");
         }
     }
     
@@ -157,7 +157,7 @@ const AppProvider = ({children}) => {
             }
         } catch (error) {
             console.log(error.response.data.message);
-            error.toast("Error fetching user cart");
+            toast.error("Error fetching user cart");
         }
     }
 
