@@ -16,7 +16,10 @@ const AppProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const [token, setToken] = useState("");
+    const [cartTotal, setCartTotal] = useState(0);
+    const deliveryCharge = 12;
 
+    // add to cart functionality
     const addToCart = async (productId,size) => {
         // to create the copy of cart item object
         if(!size){
@@ -58,7 +61,7 @@ const AppProvider = ({children}) => {
                 } catch (error) {
                     console.log(error.response.data.message);
                     if(error.response.data.message === "Refresh token missing"){
-                        localStorage.setToken('token',"");
+                        localStorage.setItem('token',"");
                         // navigate("/login")
                     }
                     toast.error("Session expired Login again");
@@ -67,21 +70,24 @@ const AppProvider = ({children}) => {
         }
     }
 
-    // const removeFromCart = (productId,size) => {
-    //     const cartData = structuredClone(cartItems);
-    //     if(cartData[productId]){
-    //         if(cartData[productId][size]){
-    //             if(cartData[productId][size] > 1){
-    //                 cartData[productId][size] -= 1;
-    //             }
-    //             else{
-    //                 deleteFromCart(productId,size);
-    //             }
-    //         }
-    //     }
-    //     setCartItems(cartData)
-    // }
+    /*
+    const removeFromCart = (productId,size) => {
+        const cartData = structuredClone(cartItems);
+        if(cartData[productId]){
+            if(cartData[productId][size]){
+                if(cartData[productId][size] > 1){
+                    cartData[productId][size] -= 1;
+                }
+                else{
+                    deleteFromCart(productId,size);
+                }
+            }
+        }
+        setCartItems(cartData)
+    }
+    */
 
+    // delete from cart
     const deleteFromCart = async (productId,size) => {
         const cartData = structuredClone(cartItems);
         if(cartData[productId]){
@@ -114,6 +120,7 @@ const AppProvider = ({children}) => {
         }
     }
 
+    // to update the item in the cart
     const updateQuantity = async (productId, size, quantity) => {
         let cartData = structuredClone(cartItems);
         cartData[productId][size] = quantity;
@@ -138,6 +145,8 @@ const AppProvider = ({children}) => {
         }
     }
     
+
+    // to get the user cart
     const getUserCart = async() => {
         try {
             const response = await axios.post(
@@ -150,14 +159,18 @@ const AppProvider = ({children}) => {
                     }
                 }
             )
-            console.log("user cart",response.data);
+            console.log("user cart",response);
 
             if(response.data.success){
                 setCartItems(response.data.cart);
             }
         } catch (error) {
             console.log(error.response.data.message);
-            toast.error("Error fetching user cart");
+            if(error.response.data.message === "Refresh token missing"){
+                localStorage.setItem('token',"");
+                // navigate("/login")
+            }
+            toast.error("Session expired Login again");
         }
     }
 
@@ -203,6 +216,21 @@ const AppProvider = ({children}) => {
         
     }
 
+    // to get the total price
+    const getTotalUserCart = () => {
+        let total = 0;
+        cart.map((pro)=>{
+            total += ((pro.product.discount) * (pro.quantity));
+            return total;
+        })
+        // console.log("toatl is",total);
+        setCartTotal(total);
+    }
+
+    useEffect(()=>{
+        getTotalUserCart();
+    },[cart])
+
     useEffect(()=>{
         fetchproducts();
     },[])
@@ -215,7 +243,7 @@ const AppProvider = ({children}) => {
     },[])
 
     return (
-        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems, updateQuantity}}>
+        <AppContext.Provider value={{showSearch, setShowSearch, products, cartItems, addToCart, totalItems, deleteFromCart, cart, BACKEND_URL, loading, token, setToken, setCartItems, updateQuantity, cartTotal, deliveryCharge}}>
             {children}
         </AppContext.Provider>
     )
