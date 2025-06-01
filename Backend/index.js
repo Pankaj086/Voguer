@@ -8,6 +8,7 @@ import userRouter from './routes/user.routes.js';
 import productRouter from './routes/product.routes.js';
 import cookieParser from 'cookie-parser'; // Add this import
 import cartRouter from './routes/cart.routes.js';
+import orderRouter from './routes/order.routes.js';
 
 // app config
 const app = express();
@@ -40,5 +41,6 @@ app.get('/', (req, res) => res.status(200).send('API is running'));
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products',productRouter);
 app.use('/api/v1/cart',cartRouter);
+app.use("/api/v1/order",orderRouter);
 
 app.listen(port, ()=> console.log(`Server is running on port: ${process.env.PORT}`));

@@ -13,6 +13,8 @@ export const verifyJWT = async (req, res, next) => {
         // console.log("Cookies received:", req.cookies);
         // console.log("Headers:", req.headers);
         // console.log("Access token being used:", token);
+        // console.log("my token:",req.header("Authorization")?.replace("Bearer ", ""));
+        
         
         if (!token) {
             return res.status(401).json({ 
@@ -27,7 +29,9 @@ export const verifyJWT = async (req, res, next) => {
             decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
             // console.log("Token verified successfully");
         } catch (err) {
-            if (err.name === "TokenExpiredError") {
+            console.log("error name",err.name);
+            
+            if (err) {
                 const refToken = req.cookies?.refreshToken || req.header("x-refresh-token");
 
                 if (!refToken) {
@@ -62,7 +66,7 @@ export const verifyJWT = async (req, res, next) => {
                     path: '/'  // Add this to ensure cookies are accessible across all paths
                 });
 
-                // decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+                decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
             } else {
                 return res.status(401).json({ message: "Invalid access token" });
