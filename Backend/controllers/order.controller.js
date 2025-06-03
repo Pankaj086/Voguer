@@ -63,6 +63,35 @@ const displayAllOrders = async(req, res) => {
 
 const getUserOrders = async(req, res) => {
 
+    try {
+        const user = req.user;
+    
+        const userId = user.userId;
+    
+        const userOrders = await Order.find(userId);
+    
+        // console.log("userorders", userOrders);
+
+        if(!userOrders){
+            return req.status(404).json({
+                success:false,
+                message: "No Orders Found"
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Orders Found",
+            userOrders
+        })
+    } catch (error) {
+        console.log(error);
+        return req.status(404).json({
+            success:false,
+            message: error.message
+        })
+    }
+    
 }
 
 // update order status(admin only)
