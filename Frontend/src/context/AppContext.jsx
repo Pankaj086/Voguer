@@ -159,7 +159,7 @@ const AppProvider = ({children}) => {
                     }
                 }
             )
-            console.log("user cart",response);
+            // console.log("user cart",response);
 
             if(response.data.success){
                 setCartItems(response.data.cart);
@@ -175,7 +175,7 @@ const AppProvider = ({children}) => {
     }
 
     useEffect(()=>{
-        console.log(cartItems);
+        // console.log(cartItems);
         let total = 0;
         for(let productId in cartItems){
             for(let size in cartItems[productId]){
